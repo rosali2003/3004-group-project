@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "HeartDB.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +16,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_ok_clicked();
+    
+    void on_right_clicked();
+    
 private:
     Ui::MainWindow *ui;
+    HeartDB heartDB;
+
 };
 #endif // MAINWINDOW_H
