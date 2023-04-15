@@ -1,6 +1,6 @@
 QT       += core gui sql
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++11
 
@@ -17,13 +17,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     HeartDB.cpp \
+    battery.cpp \
+    device.cpp \
+    display.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    menu.cpp \
+    qcustomplot.cpp \
+    session.cpp \
+    view.cpp
 
 HEADERS += \
     HeartDB.h \
     SessionRecord.h \
-    mainwindow.h
+    battery.h \
+    device.h \
+    display.h \
+    mainwindow.h \
+    menu.h \
+    qcustomplot.h \
+    session.h \
+    view.h
 
 FORMS += \
     mainwindow.ui
