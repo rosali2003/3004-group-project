@@ -28,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     battery.h \
+    defs.h \
     device.h \
     display.h \
     mainwindow.h \

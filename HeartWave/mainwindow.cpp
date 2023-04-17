@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "qcustomplot.h"
+#include <QDebug>
+#include <iostream>
+
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,17 +12,74 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-//    QVector<double> x(101), y(101);
-//    for(int i=0; i<101; ++i) {
-//        x[i] = i/50.0 -1;
-//        y[i] = x[i]*x[i];
-//    }
-//    ui->graph->addGraph();
-//    ui->graph->graph(0)->setData(x,y);
+    device = new Device();
+
+    dataTimer = new QTimer(this);
+
+    dataTimer->start(1000);
+
+    MainWindow::displayGraph();
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::displayGraph() {
+
+    ui->graph->addGraph(); // blue line
+    ui->graph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+//    ui->graph->addGraph(); // red line
+//    ui->graph->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+
+    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+    timeTicker->setTimeFormat("%h:%m:%s");
+    ui->graph->xAxis->setTicker(timeTicker);
+    ui->graph->axisRect()->setupFullAxesBox();
+    ui->graph->yAxis->setRange(60, 150);
+
+    // make left and bottom axes transfer their ranges to right and top axes:
+    connect(ui->graph->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph->xAxis2, SLOT(setRange(QCPRange)));
+    connect(ui->graph->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph->yAxis2, SLOT(setRange(QCPRange)));
+
+    // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
+    connect(dataTimer, &QTimer::timeout, this, &MainWindow::realTimeDataSlot);
+    cout << "calling realTimeDataSlot" <<endl;
+    dataTimer->start(0); // Interval 0 means to refresh as fast as possible
+
+}
+
+void MainWindow::realTimeDataSlot() {
+    static QTime time(QTime::currentTime());
+    // calculate two new data points:
+    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+    static double lastPointKey = 0;
+    int i=0;
+    if (key-lastPointKey > 0.002 && i<NUMHR) // at most add point every 2 ms
+    {
+      // add data to lines:
+     // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
+//      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
+        ui->graph->graph(0)->addData(key, device->getHRvalues().at(i));
+        cout << "getHRvalues().at(0)" << device->getHRvalues().at(0) <<endl;
+        cout << "getHRvalues().at(1)" << device->getHRvalues().at(1) <<endl;
+        cout << "getHRvalues().at(2)" << device->getHRvalues().at(2) <<endl;
+        //cout << "key-lastPointKey" << key-lastPointKey<<endl;
+        ++i;
+        cout << "i" << i << endl;
+        //cout <<"key" << key <<endl;
+        cout <<"numhr"<<NUMHR<<endl;
+      // rescale value (vertical) axis to fit the current data:
+      ui->graph->graph(0)->rescaleValueAxis();
+      //ui->customPlot->graph(1)->rescaleValueAxis(true);
+      lastPointKey = key;
+    }
+    // make key axis range scroll with the data (at a constant range size of 8):
+    ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
+    ui->graph->replot();
+
+
 }
 
