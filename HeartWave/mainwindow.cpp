@@ -11,14 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     device = new Device();
-
     dataTimer = new QTimer(this);
-
-    dataTimer->start(1000);
-
     MainWindow::displayGraph();
+    heartRateIterator=0;
 
 }
 
@@ -31,8 +27,7 @@ void MainWindow::displayGraph() {
 
     ui->graph->addGraph(); // blue line
     ui->graph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-//    ui->graph->addGraph(); // red line
-//    ui->graph->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+
 
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
@@ -46,36 +41,27 @@ void MainWindow::displayGraph() {
 
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
     connect(dataTimer, &QTimer::timeout, this, &MainWindow::realTimeDataSlot);
-    cout << "calling realTimeDataSlot" <<endl;
+    time = QTime::currentTime();
     dataTimer->start(0); // Interval 0 means to refresh as fast as possible
 
 }
 
 void MainWindow::realTimeDataSlot() {
-    static QTime time(QTime::currentTime());
     // calculate two new data points:
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     static double lastPointKey = 0;
-    int i=0;
-    if (key-lastPointKey > 0.002 && i<NUMHR) // at most add point every 2 ms
-    {
-      // add data to lines:
-     // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-//      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-        ui->graph->graph(0)->addData(key, device->getHRvalues().at(i));
-        cout << "getHRvalues().at(0)" << device->getHRvalues().at(0) <<endl;
-        cout << "getHRvalues().at(1)" << device->getHRvalues().at(1) <<endl;
-        cout << "getHRvalues().at(2)" << device->getHRvalues().at(2) <<endl;
-        //cout << "key-lastPointKey" << key-lastPointKey<<endl;
-        ++i;
-        cout << "i" << i << endl;
-        //cout <<"key" << key <<endl;
-        cout <<"numhr"<<NUMHR<<endl;
-      // rescale value (vertical) axis to fit the current data:
-      ui->graph->graph(0)->rescaleValueAxis();
-      //ui->customPlot->graph(1)->rescaleValueAxis(true);
-      lastPointKey = key;
-    }
+
+        if (key-lastPointKey > 1) // at most add point every 2 ms
+        {
+            ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
+            ++heartRateIterator;
+
+          // rescale value (vertical) axis to fit the current data:
+          ui->graph->graph(0)->rescaleValueAxis();
+
+          lastPointKey = key;
+        }
+
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();

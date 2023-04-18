@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include "qcustomplot.h"
+#include <QTime>
 
 
 
@@ -21,12 +22,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 private slots:
-    void displayGraph();
     void realTimeDataSlot();
 
 private:
     Ui::MainWindow *ui;
     Device *device;
     QTimer *dataTimer;
+    int heartRateIterator;
+    QTime time;
+    void displayGraph();
 };
 #endif // MAINWINDOW_H
