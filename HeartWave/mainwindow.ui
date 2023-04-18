@@ -32,8 +32,8 @@
     <widget class="QCustomPlot" name="graph">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>60</y>
+       <x>30</x>
+       <y>50</y>
        <width>271</width>
        <height>121</height>
       </rect>

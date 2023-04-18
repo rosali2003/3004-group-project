@@ -40,6 +40,6 @@ private:
     int heartRateIterator;
     QTime time;
     void displayGraph();
-    int i;
+    HeartDB heartDB;
 };
 #endif // MAINWINDOW_H

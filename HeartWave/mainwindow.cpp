@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     dataTimer = new QTimer(this);
     MainWindow::displayGraph();
     heartRateIterator=0;
-    i=0;
 }
 
 MainWindow::~MainWindow()
@@ -52,6 +51,7 @@ void MainWindow::realTimeDataSlot() {
     // calculate two new data points:
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     static double lastPointKey = 0;
+
     static double lastBatteryDrainKey = 0;
 
     if (key-lastPointKey > 1) // at most add point every 2 ms
@@ -60,17 +60,21 @@ void MainWindow::realTimeDataSlot() {
       ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
       ++heartRateIterator;
 
+
       // rescale value (vertical) axis to fit the current data:
       ui->graph->graph(0)->rescaleValueAxis();
 
-      lastPointKey = key;
-    }
+
 
     // If 4 seconds have gone by without draining battery
     if (key-lastBatteryDrainKey >= 4){
         qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
         lastBatteryDrainKey = key;
     }
+
+          lastPointKey = key;
+        }
+
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
