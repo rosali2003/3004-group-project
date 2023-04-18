@@ -28,5 +28,6 @@ private:
     Ui::MainWindow *ui;
     Device *device;
     QTimer *dataTimer;
+    int i;
 };
 #endif // MAINWINDOW_H

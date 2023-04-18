@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     MainWindow::displayGraph();
 
+    i=0;
+
 }
 
 MainWindow::~MainWindow()
@@ -56,26 +58,27 @@ void MainWindow::realTimeDataSlot() {
     // calculate two new data points:
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     static double lastPointKey = 0;
-    int i=0;
-    if (key-lastPointKey > 0.002 && i<NUMHR) // at most add point every 2 ms
-    {
-      // add data to lines:
-     // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-//      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-        ui->graph->graph(0)->addData(key, device->getHRvalues().at(i));
-        cout << "getHRvalues().at(0)" << device->getHRvalues().at(0) <<endl;
-        cout << "getHRvalues().at(1)" << device->getHRvalues().at(1) <<endl;
-        cout << "getHRvalues().at(2)" << device->getHRvalues().at(2) <<endl;
-        //cout << "key-lastPointKey" << key-lastPointKey<<endl;
-        ++i;
-        cout << "i" << i << endl;
-        //cout <<"key" << key <<endl;
-        cout <<"numhr"<<NUMHR<<endl;
-      // rescale value (vertical) axis to fit the current data:
-      ui->graph->graph(0)->rescaleValueAxis();
-      //ui->customPlot->graph(1)->rescaleValueAxis(true);
-      lastPointKey = key;
-    }
+   //while(i<NUMHR) {
+        if (key-lastPointKey > 1) // at most add point every 2 ms
+        {
+            cout << "entering" << endl;
+          // add data to lines:
+         // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
+    //      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
+            ui->graph->graph(0)->addData(key, device->getHRvalues().at(i%NUMHR));
+            //cout << "key-lastPointKey" << key-lastPointKey<<endl;
+            ++i;
+            cout << "i" << i << endl;
+            cout <<"key" << key <<endl;
+            cout << "key - lastPointKey" << key-lastPointKey << endl;
+            cout <<"numhr"<<NUMHR<<endl;
+          // rescale value (vertical) axis to fit the current data:
+          ui->graph->graph(0)->rescaleValueAxis();
+          //ui->customPlot->graph(1)->rescaleValueAxis(true);
+          lastPointKey = key;
+        }
+    //}
+
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();
