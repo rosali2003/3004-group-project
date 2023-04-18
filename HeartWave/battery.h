@@ -2,8 +2,7 @@
 #define BATTERY_H
 
 
-class Battery
-{
+class Battery {
 public:
     Battery();
     int decreaseBattery(int step);

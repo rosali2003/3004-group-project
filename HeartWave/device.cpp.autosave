@@ -1,0 +1,13 @@
+#include "device.h"
+
+Device::Device() {
+    battery = new Battery();
+}
+
+bool Device::chargeBattery() {
+    return battery.chargeBattery();
+}
+
+int Device::decreaseBattery(int step) {
+    return battery.decreaseBattery(int step);
+}
