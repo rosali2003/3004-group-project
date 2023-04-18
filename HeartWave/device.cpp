@@ -1,6 +1,7 @@
 #include "device.h"
 #include <iostream>
 
+<<<<<<< HEAD
 using namespace std;
 
 // constructors
@@ -43,4 +44,16 @@ bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coheren
     SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
 
     return database->addSessionRecord(newSession);
+=======
+Device::Device() {
+    battery = new Battery();
+}
+
+bool Device::chargeBattery() {
+    return battery.chargeBattery();
+}
+
+int Device::decreaseBattery(int step) {
+    return battery.decreaseBattery(int step);
+>>>>>>> fix
 }

@@ -1,5 +1,6 @@
 #ifndef DEVICE_H
 #define DEVICE_H
+
 #include <QTimer>
 #include <QDateTime>
 #include "battery.h"
@@ -12,7 +13,7 @@
 #include "qcustomplot.h"
 
 
-class Device{
+class Device {
 public:
     // constructors
     Device();
