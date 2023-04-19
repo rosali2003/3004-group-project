@@ -22,7 +22,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menu.cpp \
-    qcustomplot.cpp \
     session.cpp \
     view.cpp
 

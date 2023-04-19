@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "device.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,9 +15,17 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void displayGraph();
+    //void displayGraph();
+
+private slots:
+    void on_power_clicked();
+
+    void on_up_clicked();
+
+    void on_down_clicked();
 
 private:
     Ui::MainWindow *ui;
+    Device* device;
 };
 #endif // MAINWINDOW_H
