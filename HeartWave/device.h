@@ -28,6 +28,8 @@ public:
     void displayheartRate();
     void displayCoherenceScores();
     QVector<int>& getHRvalues();
+    QVector<int>& getCoherenceScores();
+    void calculateCoherenceScores();
 private:
     QTimer *timer;
     Display display;

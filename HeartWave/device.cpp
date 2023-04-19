@@ -25,3 +25,29 @@ Device::Device()
 QVector<int>& Device::getHRvalues(){
     return HRvalues;
 }
+
+QVector<int>& Device::getCoherenceScores(){
+    return coherenceValues;
+}
+
+void Device::calculateCoherenceScores() {
+    int largest =0;
+    int smallest =0;
+    for(int i=0; i<NUMHR;i++) {
+        if(HRvalues.at(i) > largest) {
+            largest = HRvalues.at(i);
+        } else if(HRvalues.at(i) < smallest) {
+            smallest = HRvalues.at(i);
+        }
+
+        if((i+1)%5 == 0) {
+            coherenceValues.push_back(largest-smallest);
+            largest = 0;
+            smallest = 0;
+        }
+    }
+
+    for(int i; i<30;i++){
+        cout << "coherence values at i" << i<< " : " << coherenceValues.at(i) << endl;
+    }
+}

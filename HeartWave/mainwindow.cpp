@@ -4,6 +4,7 @@
 #include <iostream>
 
 
+
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     dataTimer = new QTimer(this);
 
     dataTimer->start(1000);
+
 
     MainWindow::displayGraph();
 
@@ -54,24 +56,24 @@ void MainWindow::displayGraph() {
 }
 
 void MainWindow::realTimeDataSlot() {
-    static QTime time(QTime::currentTime());
+//    static QTime time(QTime::currentTime());
     // calculate two new data points:
-    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
-    static double lastPointKey = 0;
+//    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+//    static double lastPointKey = 0;
    //while(i<NUMHR) {
         if (key-lastPointKey > 1) // at most add point every 2 ms
         {
-            cout << "entering" << endl;
+            //cout << "entering" << endl;
           // add data to lines:
          // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
     //      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
             ui->graph->graph(0)->addData(key, device->getHRvalues().at(i%NUMHR));
             //cout << "key-lastPointKey" << key-lastPointKey<<endl;
             ++i;
-            cout << "i" << i << endl;
-            cout <<"key" << key <<endl;
-            cout << "key - lastPointKey" << key-lastPointKey << endl;
-            cout <<"numhr"<<NUMHR<<endl;
+//            cout << "i" << i << endl;
+//            cout <<"key" << key <<endl;
+//            cout << "key - lastPointKey" << key-lastPointKey << endl;
+//            cout <<"numhr"<<NUMHR<<endl;
           // rescale value (vertical) axis to fit the current data:
           ui->graph->graph(0)->rescaleValueAxis();
           //ui->customPlot->graph(1)->rescaleValueAxis(true);
@@ -82,7 +84,15 @@ void MainWindow::realTimeDataSlot() {
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();
+}
 
+void MainWindow::displayCoherenceValues() {
+    QString score = "";
+
+    if(key-lastPointKey >5) {
+        score = device->getCoherenceScores().at((coherenceIterator+1)%30);
+        ui->coherence_value->setText(score);
+    }
 
 }
 

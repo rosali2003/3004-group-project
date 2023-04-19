@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QDateTime>
 #include "qcustomplot.h"
+#include <QTime>
+
 
 
 
@@ -23,11 +25,16 @@ public:
 private slots:
     void displayGraph();
     void realTimeDataSlot();
+    void displayCoherenceValues();
 
 private:
     Ui::MainWindow *ui;
     Device *device;
     QTimer *dataTimer;
+    static QTime time(QTime::currentTime());
     int i;
+    int coherenceIterator = 0;
+    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+    double lastPointKey = 0;
 };
 #endif // MAINWINDOW_H
