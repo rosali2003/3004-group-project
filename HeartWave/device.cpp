@@ -13,6 +13,7 @@ Device::Device()
 
 }
 
+<<<<<<< HEAD
     powerOn = false;
     display = new Display();
     database = new HeartDB();
@@ -45,15 +46,34 @@ bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coheren
 
     return database->addSessionRecord(newSession);
 =======
+=======
+>>>>>>> Using timer for battery
 Device::Device() {
-    battery = new Battery();
-}
+    db = new HeartDB();
 
-bool Device::chargeBattery() {
-    return battery.chargeBattery();
-}
+    int battery_lvl = db->getBatteryLevel();
+    battery = new Battery(battery_lvl);
 
+<<<<<<< HEAD
 int Device::decreaseBattery(int step) {
     return battery.decreaseBattery(int step);
 >>>>>>> fix
+=======
+    for(int i =0; i<NUMHR;i++) {
+        HRvalues.push_back(HR[i]);
+//        cout << "Hr values at i " << " i " << i << " hrvalue " <<HRvalues.at(i) << endl;
+    }
+}
+
+bool Device::chargeBattery() {
+    return battery->chargeBattery();
+}
+
+int Device::decreaseBattery(int step) {
+    return battery->decreaseBattery(step);
+}
+
+QVector<int>& Device::getHRvalues(){
+    return HRvalues;
+>>>>>>> Using timer for battery
 }

@@ -29,33 +29,19 @@ public:
     bool quitSesson();
     bool addSessionToHistory(QDateTime date, int duration, float avg_coherence);
     bool chargeBattery();
-<<<<<<< HEAD
     int descreaseBattery(int step);
     QModelIndex goUp();
     QModelIndex goDown();
-=======
-    int decreaseBattery(int step);
-    View* goUp();
-    View* goDown();
->>>>>>> Using timer for battery
     View* handleOK();
     View* goToMain();
     View* goBack();
     void displayheartRate();
     void displayCoherenceScores();
     QVector<int>& getHRvalues();
-private:
-    HeartDB* db;
-    QTimer *timer;
-    Display display;
-<<<<<<< HEAD
-    Battery battery;
 
 private:
-    QTimer timer;
+    QTimer *timer;
     Display *display;
-=======
->>>>>>> Using timer for battery
     Battery *battery;
     bool hrContact;
     QStringListModel *screens;
