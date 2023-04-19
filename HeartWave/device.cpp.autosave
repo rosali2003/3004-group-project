@@ -20,7 +20,6 @@ QVector<int>& Device::getHRvalues(){
     return HRvalues;
 }
 
-<<<<<<< HEAD
 // getters
 QStringListModel* Device::getModel() {return display->getModel();}
 QModelIndex Device::getCurrScreen() {return display->getCurrScreen();}
@@ -42,7 +41,6 @@ bool Device::togglePower() {
 bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
     SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
 
-<<<<<<< HEAD
     return database->addSessionRecord(*newSession);
 }
 
@@ -61,9 +59,8 @@ bool Device::chargeBattery() {
 
 int Device::decreaseBattery(int step) {
     return battery->decreaseBattery(step);
-=======
-    return database->addSessionRecord(newSession);
-=======
+}
+
 QVector<int>& Device::getCoherenceScores(){
     return coherenceValues;
 }
@@ -88,6 +85,5 @@ void Device::calculateCoherenceScores() {
     for(int i; i<30;i++){
         cout << "coherence values at i" << i<< " : " << coherenceValues.at(i) << endl;
     }
->>>>>>> trying to display and calculate coherence values, not working
->>>>>>> trying to display and calculate coherence values, not working
+
 }

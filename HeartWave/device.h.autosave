@@ -38,15 +38,8 @@ public:
     void displayheartRate();
     void displayCoherenceScores();
     QVector<int>& getHRvalues();
-<<<<<<< HEAD
-=======
     QVector<int>& getCoherenceScores();
     void calculateCoherenceScores();
-private:
-    QTimer *timer;
-    Display display;
-    Battery battery;
->>>>>>> trying to display and calculate coherence values, not working
 
 private:
     QTimer *timer;

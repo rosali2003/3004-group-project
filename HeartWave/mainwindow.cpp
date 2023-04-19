@@ -3,6 +3,11 @@
 #include <QDebug>
 #include <iostream>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> trying to display and calculate coherence values, not working
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -13,6 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     device = new Device();
     dataTimer = new QTimer(this);
+<<<<<<< HEAD
+=======
+
+    dataTimer->start(1000);
+
+
+>>>>>>> trying to display and calculate coherence values, not working
     MainWindow::displayGraph();
     heartRateIterator=0;
 }
@@ -48,6 +60,7 @@ void MainWindow::displayGraph() {
 }
 
 void MainWindow::realTimeDataSlot() {
+<<<<<<< HEAD
     // calculate two new data points:
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     static double lastPointKey = 0;
@@ -74,11 +87,55 @@ void MainWindow::realTimeDataSlot() {
 
           lastPointKey = key;
         }
+<<<<<<< HEAD
 
+=======
+=======
+=======
+//    static QTime time(QTime::currentTime());
+    // calculate two new data points:
+//    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+//    static double lastPointKey = 0;
+>>>>>>> trying to display and calculate coherence values, not working
+   //while(i<NUMHR) {
+        if (key-lastPointKey > 1) // at most add point every 2 ms
+        {
+            //cout << "entering" << endl;
+          // add data to lines:
+         // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
+    //      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
+            ui->graph->graph(0)->addData(key, device->getHRvalues().at(i%NUMHR));
+            //cout << "key-lastPointKey" << key-lastPointKey<<endl;
+            ++i;
+//            cout << "i" << i << endl;
+//            cout <<"key" << key <<endl;
+//            cout << "key - lastPointKey" << key-lastPointKey << endl;
+//            cout <<"numhr"<<NUMHR<<endl;
+          // rescale value (vertical) axis to fit the current data:
+          ui->graph->graph(0)->rescaleValueAxis();
+          //ui->customPlot->graph(1)->rescaleValueAxis(true);
+          lastPointKey = key;
+        }
+    //}
+>>>>>>> --amend
+>>>>>>> trying to display and calculate coherence values, not working
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();
+<<<<<<< HEAD
+=======
+}
+
+void MainWindow::displayCoherenceValues() {
+    QString score = "";
+
+    if(key-lastPointKey >5) {
+        score = device->getCoherenceScores().at((coherenceIterator+1)%30);
+        ui->coherence_value->setText(score);
+    }
+
+>>>>>>> trying to display and calculate coherence values, not working
 }
 
 void MainWindow::on_power_clicked()
