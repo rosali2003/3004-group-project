@@ -12,6 +12,9 @@ public:
     // constructors
     Device();
 
+    // setters
+    QStringListModel* setModel();
+
     // getters
     QStringListModel* getModel();
     QModelIndex getCurrScreen();
@@ -25,9 +28,9 @@ public:
     int descreaseBattery(int step);
     QModelIndex goUp();
     QModelIndex goDown();
-    View* handleOK();
-    View* goToMain();
-    View* goBack();
+    QStringListModel* goToMenu();
+    void deleteHistory();
+    bool isMainMenu();
 
 private:
     QTimer timer;

@@ -9,6 +9,11 @@ Device::Device()
 
 }
 
+// setters
+QStringListModel* Device::setModel() {
+    return display->setModel();
+}
+
 // getters
 QStringListModel* Device::getModel() {return display->getModel();}
 QModelIndex Device::getCurrScreen() {return display->getCurrScreen();}
@@ -27,8 +32,19 @@ bool Device::togglePower() {
     return powerOn;
 }
 
-bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
-    SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
+void Device::deleteHistory() {
+    database->deleteSessions();
+}
 
-    return database->addSessionRecord(newSession);
+bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
+    SessionRecord session(date, duration, avg_coherence);
+    return database->addSessionRecord(session);
+}
+
+QStringListModel* Device::goToMenu() {
+    return display->goToMenu();
+}
+
+bool Device::isMainMenu() {
+    return display->isMainMenu();
 }

@@ -1,4 +1,4 @@
-#include "HeartDB.h"
+﻿#include "HeartDB.h"
 
 const QString HeartDB::DB_PATH = "/database/heart.db";
 
@@ -129,4 +129,16 @@ bool HeartDB::deleteSessions(){
     qDebug() << "re-create table sessions query: " << query.exec();
 
     return db.commit();
+}
+
+QStringList HeartDB::getHistoryList() {
+    QVector<SessionRecord*> sessionsVector = getSessions();
+    QStringList list;
+
+    foreach(SessionRecord* record, sessionsVector) {
+        QString str = record->getDate().toString() + "\nDuration: " + QString::number(record->getDuration()) + "\nAvg Coherence: " + QString::number(record->getAvgCoherence());
+        list << str;
+    }
+
+    return list;
 }

@@ -24,11 +24,11 @@ private slots:
     void on_up_clicked();
 
     void on_down_clicked();
-
+    
     void on_ok_clicked();
-    
-    void on_right_clicked();
-    
+
+    void on_menu_clicked();
+
 private:
     Ui::MainWindow *ui;
     HeartDB heartDB;

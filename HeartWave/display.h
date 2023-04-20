@@ -2,6 +2,7 @@
 #define DISPLAY_H
 #include <QStringListModel>
 #include "view.h"
+#include "HeartDB.h"
 #include <string.h>
 
 class Display
@@ -10,6 +11,9 @@ public:
     // constructors
     Display();
 
+    // setters
+    QStringListModel* setModel();
+
     // getters
     QModelIndex getCurrScreen();
     QStringListModel* getModel();
@@ -17,8 +21,14 @@ public:
     // others
     QModelIndex goUp();
     QModelIndex goDown();
+    QStringListModel* goToMenu();
+    bool isMainMenu();
 
 private:
+    HeartDB *database;
+    QStringList screens;
+    QStringList history;
+    QStringList currList;
     int currScreen;
     QStringListModel* model;
     int numScreens;

@@ -9,6 +9,7 @@
 #include <QSqlError>
 #include <QList>
 #include <QApplication>
+#include <QStringListModel>
 
 #include "SessionRecord.h"
 
@@ -38,6 +39,7 @@ public:
     bool addSessionRecord(SessionRecord& session);
     bool updateProfile(int battery_level);
     bool deleteSessions();
+    QStringList getHistoryList();
 
     int getBatteryLevel();
     QVector<SessionRecord*> getSessions();

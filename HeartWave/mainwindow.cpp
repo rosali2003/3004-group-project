@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    device->addSessionToHistory(QDateTime(QDate(2024, 2, 2), QTime(8, 30, 0)), 2, 87.0f);
+
 //    QVector<double> x(101), y(101);
 //    for(int i=0; i<101; ++i) {
 //        x[i] = i/50.0 -1;
@@ -42,4 +44,22 @@ void MainWindow::on_up_clicked()
 void MainWindow::on_down_clicked()
 {
     ui->listView->setCurrentIndex(device->goDown());
+}
+
+void MainWindow::on_ok_clicked()
+{
+    if(device->isMainMenu()) {
+        ui->listView->setModel(device->setModel());
+        ui->listView->setCurrentIndex(device->getCurrScreen());
+        if (ui->listView->model() == nullptr) {
+            ui->listView->setVisible(false);
+        }
+    }
+}
+
+void MainWindow::on_menu_clicked()
+{
+    ui->listView->setVisible(true);
+    ui->listView->setModel(device->goToMenu());
+    ui->listView->setCurrentIndex(device->getCurrScreen());
 }
