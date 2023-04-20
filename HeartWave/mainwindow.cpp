@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    device->addSessionToHistory(QDateTime(QDate(2024, 2, 2), QTime(8, 30, 0)), 2, 87.0f);
-
 //    QVector<double> x(101), y(101);
 //    for(int i=0; i<101; ++i) {
 //        x[i] = i/50.0 -1;
