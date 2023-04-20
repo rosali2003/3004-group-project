@@ -30,7 +30,5 @@ bool Device::togglePower() {
 bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
     SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
 
-    if(!database->addSessionRecord(newSession)) {return false;}
-
-    return true;
+    return database->addSessionRecord(newSession);
 }
