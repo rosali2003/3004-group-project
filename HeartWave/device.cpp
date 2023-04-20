@@ -5,6 +5,8 @@ Device::Device()
 {
     powerOn = false;
     display = new Display();
+    database = new HeartDB();
+
 }
 
 // getters
@@ -23,4 +25,12 @@ QModelIndex Device::goDown() {
 bool Device::togglePower() {
     powerOn = !powerOn;
     return powerOn;
+}
+
+bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
+    SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
+
+    if(!database->addSessionRecord(newSession)) {return false;}
+
+    return true;
 }

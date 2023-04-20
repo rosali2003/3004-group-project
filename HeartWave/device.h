@@ -3,6 +3,7 @@
 #include <QTimer>
 #include "battery.h"
 #include "display.h"
+#include "HeartDB.h"
 #include <QList>
 
 
@@ -19,7 +20,7 @@ public:
     bool togglePower();
     bool beginSession();
     bool quitSesson();
-    bool addSessionToHistory();
+    bool addSessionToHistory(QDateTime date, int duration, float avg_coherence);
     bool chargeBattery();
     int descreaseBattery(int step);
     QModelIndex goUp();
@@ -37,6 +38,7 @@ private:
     bool powerOn;
     int batteryPercentage;
     bool programRunning;
+    HeartDB *database;
 };
 
 #endif // DEVICE_H
