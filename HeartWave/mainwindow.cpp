@@ -10,17 +10,15 @@ using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , device(new Device())
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     device = new Device();
-
     dataTimer = new QTimer(this);
-    dataTimer->start(1000);
-    i=0;
     coherenceIterator = 0;
     MainWindow::displayGraph();
+    heartRateIterator=0;
 
 }
 
@@ -33,6 +31,8 @@ void MainWindow::displayGraph() {
 
     ui->graph->addGraph(); // blue line
     ui->graph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+
+
 
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
@@ -57,6 +57,7 @@ void MainWindow::realTimeDataSlot() {
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
 
     static double lastPointKey = 0;
+
     static double coherenceKey = 0;
 
         if (key-lastPointKey > 1) // at most add point every 1 sec
@@ -74,6 +75,20 @@ void MainWindow::realTimeDataSlot() {
         }
 
 
+
+
+        if (key-lastPointKey > 1) // at most add point every 2 ms
+        {
+            ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
+            ++heartRateIterator;
+
+          // rescale value (vertical) axis to fit the current data:
+          ui->graph->graph(0)->rescaleValueAxis();
+
+          lastPointKey = key;
+        }
+
+
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();
@@ -87,3 +102,23 @@ void MainWindow::displayCoherenceValues() {
 
 }
 
+void MainWindow::on_power_clicked()
+{
+    if(device->togglePower()) {
+        ui->blackScreen->setVisible(false);
+        ui->listView->setModel(device->getModel());
+        ui->listView->setCurrentIndex(device->getCurrScreen());
+    } else {
+        ui->blackScreen->setVisible(true);
+    }
+}
+
+void MainWindow::on_up_clicked()
+{
+    ui->listView->setCurrentIndex(device->goUp());
+}
+
+void MainWindow::on_down_clicked()
+{
+    ui->listView->setCurrentIndex(device->goDown());
+}

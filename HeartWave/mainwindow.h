@@ -11,6 +11,10 @@
 
 
 
+
+#include "HeartDB.h"
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -24,15 +28,29 @@ public:
     ~MainWindow();
      void displayCoherenceValues();
 private slots:
-    void displayGraph();
     void realTimeDataSlot();
 
+    void on_power_clicked();
+
+    void on_up_clicked();
+
+    void on_down_clicked();
+
+    void on_ok_clicked();
+    
+    void on_right_clicked();
+    
+    
 private:
     Ui::MainWindow *ui;
     Device *device;
     QTimer *dataTimer;
-    QTime time;
-    int i;
     int coherenceIterator;
+    int heartRateIterator;
+    QTime time;
+    void displayGraph();
+    HeartDB heartDB;
+    
+
 };
 #endif // MAINWINDOW_H
