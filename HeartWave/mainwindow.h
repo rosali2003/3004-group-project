@@ -25,7 +25,6 @@ private slots:
 
     void on_down_clicked();
 
-private slots:
     void on_ok_clicked();
     
     void on_right_clicked();
