@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include "battery.h"
 #include "display.h"
+#include "HeartDB.h"
 #include <QList>
 #include <stdio.h>
 #include <QVector>
@@ -13,15 +14,22 @@
 
 class Device{
 public:
+    // constructors
     Device();
-    bool tooglePower();
+
+    // getters
+    QStringListModel* getModel();
+    QModelIndex getCurrScreen();
+
+    // others
+    bool togglePower();
     bool beginSession();
     bool quitSesson();
-    bool addSessionToHistory();
+    bool addSessionToHistory(QDateTime date, int duration, float avg_coherence);
     bool chargeBattery();
     int descreaseBattery(int step);
-    View* goUp();
-    View* goDown();
+    QModelIndex goUp();
+    QModelIndex goDown();
     View* handleOK();
     View* goToMain();
     View* goBack();
@@ -32,13 +40,19 @@ private:
     QTimer *timer;
     Display display;
     Battery battery;
+
+private:
+    QTimer timer;
+    Display *display;
+    Battery *battery;
     bool hrContact;
-    QList<int> programs;
+    QStringListModel *screens;
     bool powerOn;
     int batteryPercentage;
     bool programRunning;
     QVector<int> HRvalues;
     QVector<int> coherenceValues;
+    HeartDB *database;
 };
 
 #endif // DEVICE_H

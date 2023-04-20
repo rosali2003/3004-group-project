@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
@@ -16,17 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    HeartDB.cpp \
     battery.cpp \
     device.cpp \
     display.cpp \
     main.cpp \
     mainwindow.cpp \
     menu.cpp \
-    qcustomplot.cpp \
     session.cpp \
     view.cpp
 
 HEADERS += \
+    HeartDB.h \
+    SessionRecord.h \
     battery.h \
     defs.h \
     device.h \

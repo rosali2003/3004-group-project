@@ -7,8 +7,7 @@
 #include <QDateTime>
 #include "qcustomplot.h"
 #include <QTime>
-
-
+#include "HeartDB.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +23,17 @@ public:
 private slots:
     void realTimeDataSlot();
 
+    void on_power_clicked();
+
+    void on_up_clicked();
+
+    void on_down_clicked();
+
+    void on_ok_clicked();
+    
+    void on_right_clicked();
+    
+    
 private:
     Ui::MainWindow *ui;
     Device *device;
@@ -31,5 +41,7 @@ private:
     int heartRateIterator;
     QTime time;
     void displayGraph();
+    HeartDB heartDB;
+    
 };
 #endif // MAINWINDOW_H

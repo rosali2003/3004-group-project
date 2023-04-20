@@ -2,20 +2,26 @@
 #define DISPLAY_H
 #include <QStringListModel>
 #include "view.h"
-
+#include <string.h>
 
 class Display
 {
 public:
+    // constructors
     Display();
-    View* goUp();
-    View* goDown();
-    View* goToMain();
-    void addHistoryToNavigation(View* lastView);
-    View* goBack();
+
+    // getters
+    QModelIndex getCurrScreen();
+    QStringListModel* getModel();
+
+    // others
+    QModelIndex goUp();
+    QModelIndex goDown();
+
 private:
-    View* currScreen;
-    QStringListModel* screensArr;
+    int currScreen;
+    QStringListModel* model;
+    int numScreens;
 };
 
 #endif // DISPLAY_H
