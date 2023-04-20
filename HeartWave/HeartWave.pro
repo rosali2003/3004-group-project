@@ -23,6 +23,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menu.cpp \
+    qcustomplot.cpp \
     session.cpp \
     view.cpp
 
@@ -35,6 +36,7 @@ HEADERS += \
     display.h \
     mainwindow.h \
     menu.h \
+    qcustomplot.h \
     qcustomplot.h \
     session.h \
     view.h

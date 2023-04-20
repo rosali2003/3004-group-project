@@ -56,6 +56,7 @@ void MainWindow::realTimeDataSlot() {
 
     if (key-lastPointKey > 1) // at most add point every 2 ms
     {
+      qDebug() << "time elapsed: " << key;
       ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
       ++heartRateIterator;
 
