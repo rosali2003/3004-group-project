@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "qcustomplot.h"
 
 #include<QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , device(new Device())
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -24,13 +24,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_ok_clicked()
+void MainWindow::on_power_clicked()
 {
-    
+    if(device->togglePower()) {
+        ui->blackScreen->setVisible(false);
+        ui->listView->setModel(device->getModel());
+        ui->listView->setCurrentIndex(device->getCurrScreen());
+    } else {
+        ui->blackScreen->setVisible(true);
+    }
 }
 
-void MainWindow::on_right_clicked()
+void MainWindow::on_up_clicked()
 {
-    
+    ui->listView->setCurrentIndex(device->goUp());
+}
+
+void MainWindow::on_down_clicked()
+{
+    ui->listView->setCurrentIndex(device->goDown());
 }
