@@ -1,10 +1,15 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 #include <QTimer>
+#include <QDateTime>
 #include "battery.h"
 #include "display.h"
 #include "HeartDB.h"
 #include <QList>
+#include <stdio.h>
+#include <QVector>
+#include "defs.h"
+#include "qcustomplot.h"
 
 
 class Device{
@@ -28,6 +33,13 @@ public:
     View* handleOK();
     View* goToMain();
     View* goBack();
+    void displayheartRate();
+    void displayCoherenceScores();
+    QVector<int>& getHRvalues();
+private:
+    QTimer *timer;
+    Display display;
+    Battery battery;
 
 private:
     QTimer timer;
@@ -38,6 +50,8 @@ private:
     bool powerOn;
     int batteryPercentage;
     bool programRunning;
+    QVector<int> HRvalues;
+    QVector<int> coherenceValues;
     HeartDB *database;
 };
 

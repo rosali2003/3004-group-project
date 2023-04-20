@@ -30,6 +30,7 @@ HEADERS += \
     HeartDB.h \
     SessionRecord.h \
     battery.h \
+    defs.h \
     device.h \
     display.h \
     mainwindow.h \

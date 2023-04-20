@@ -1,12 +1,24 @@
 #include "device.h"
+#include <iostream>
+
+using namespace std;
 
 // constructors
 Device::Device()
 {
+    for(int i =0; i<NUMHR;i++) {
+        HRvalues.push_back(HR[i]);
+    }
+
+}
+
     powerOn = false;
     display = new Display();
     database = new HeartDB();
 
+
+QVector<int>& Device::getHRvalues(){
+    return HRvalues;
 }
 
 // getters
