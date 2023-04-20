@@ -22,19 +22,17 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+     void displayCoherenceValues();
 private slots:
     void displayGraph();
     void realTimeDataSlot();
-    void displayCoherenceValues();
 
 private:
     Ui::MainWindow *ui;
     Device *device;
     QTimer *dataTimer;
-    static QTime time(QTime::currentTime());
+    QTime time;
     int i;
-    int coherenceIterator = 0;
-    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
-    double lastPointKey = 0;
+    int coherenceIterator;
 };
 #endif // MAINWINDOW_H

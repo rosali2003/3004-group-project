@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <iostream>
+#include <QDebug>
 
 
 
@@ -16,13 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     device = new Device();
 
     dataTimer = new QTimer(this);
-
     dataTimer->start(1000);
-
-
-    MainWindow::displayGraph();
-
     i=0;
+    coherenceIterator = 0;
+    MainWindow::displayGraph();
 
 }
 
@@ -35,8 +33,6 @@ void MainWindow::displayGraph() {
 
     ui->graph->addGraph(); // blue line
     ui->graph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-//    ui->graph->addGraph(); // red line
-//    ui->graph->graph(1)->setPen(QPen(QColor(255, 110, 40)));
 
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
@@ -49,37 +45,34 @@ void MainWindow::displayGraph() {
     connect(ui->graph->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph->yAxis2, SLOT(setRange(QCPRange)));
 
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
+    device->calculateCoherenceScores();
     connect(dataTimer, &QTimer::timeout, this, &MainWindow::realTimeDataSlot);
-    cout << "calling realTimeDataSlot" <<endl;
+    time = QTime::currentTime();
     dataTimer->start(0); // Interval 0 means to refresh as fast as possible
 
 }
 
 void MainWindow::realTimeDataSlot() {
-//    static QTime time(QTime::currentTime());
     // calculate two new data points:
-//    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
-//    static double lastPointKey = 0;
-   //while(i<NUMHR) {
-        if (key-lastPointKey > 1) // at most add point every 2 ms
+    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+
+    static double lastPointKey = 0;
+    static double coherenceKey = 0;
+
+        if (key-lastPointKey > 1) // at most add point every 1 sec
         {
-            //cout << "entering" << endl;
-          // add data to lines:
-         // ui->graph->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-    //      ui->graph->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
             ui->graph->graph(0)->addData(key, device->getHRvalues().at(i%NUMHR));
-            //cout << "key-lastPointKey" << key-lastPointKey<<endl;
             ++i;
-//            cout << "i" << i << endl;
-//            cout <<"key" << key <<endl;
-//            cout << "key - lastPointKey" << key-lastPointKey << endl;
-//            cout <<"numhr"<<NUMHR<<endl;
           // rescale value (vertical) axis to fit the current data:
+            if(key-coherenceKey > 5) {
+                this->displayCoherenceValues();
+                coherenceKey = key;
+             }
+
           ui->graph->graph(0)->rescaleValueAxis();
-          //ui->customPlot->graph(1)->rescaleValueAxis(true);
           lastPointKey = key;
         }
-    //}
+
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
@@ -88,11 +81,9 @@ void MainWindow::realTimeDataSlot() {
 
 void MainWindow::displayCoherenceValues() {
     QString score = "";
-
-    if(key-lastPointKey >5) {
-        score = device->getCoherenceScores().at((coherenceIterator+1)%30);
-        ui->coherence_value->setText(score);
-    }
+    score = QString::number(device->getCoherenceScores().at(coherenceIterator));
+    ++coherenceIterator;
+    ui->coherence_value->setText(score);
 
 }
 
