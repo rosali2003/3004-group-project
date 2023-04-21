@@ -32,7 +32,7 @@ public:
     bool togglePower();
     bool beginSession();
     bool quitSesson();
-    bool addSessionToHistory(QDateTime date, int duration, float avg_coherence);
+    bool addSessionToHistory(QDateTime date, float duration, float avg_coherence, float achievement_score);
     bool chargeBattery();
     int decreaseBattery(int step);
     QModelIndex goUp();
@@ -48,6 +48,9 @@ public:
     QVector<int>& getHRvalues();
     QVector<float>& getCoherenceScores();
     void calculateCoherenceScores();
+    bool isOn(){return powerOn;}
+    void updateHistory();
+    int getBatteryLevel(){return battery->getBatteryPercentage();}
 
 private:
     QTimer *timer;

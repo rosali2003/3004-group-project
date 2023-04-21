@@ -5,7 +5,6 @@ using namespace std;
 // constructors
 Device::Device()
 {
-
     for(int i =0; i<NUMHR;i++) {
         HRvalues.push_back(HR[i]);
     }
@@ -14,6 +13,7 @@ Device::Device()
     display = new Display();
     database = new HeartDB();
     battery = new Battery(database->getBatteryLevel());
+    calculateCoherenceScores();
 
 }
 
@@ -48,8 +48,8 @@ void Device::deleteHistory() {
     database->deleteSessions();
 }
 
-bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
-    SessionRecord session(date, duration, avg_coherence);
+bool Device::addSessionToHistory(QDateTime date, float duration, float avg_coherence, float achievement_score) {
+    SessionRecord session(date, duration, avg_coherence, achievement_score);
     return database->addSessionRecord(session);
 }
 
@@ -99,4 +99,8 @@ void Device::calculateCoherenceScores() {
             smallest = 200;
         }
     }
+}
+
+void Device::updateHistory(){
+    display->updateHistory();
 }

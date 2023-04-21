@@ -34,11 +34,14 @@ private slots:
 
     void on_menu_clicked();
 
+    void on_back_clicked();
+
 private:
     Ui::MainWindow *ui;
     Device *device;
     QTimer *dataTimer;
     int heartRateIterator;
+    float achievement_score;
     QDateTime date;
     QTime time;
     void displayGraph();
@@ -46,5 +49,6 @@ private:
     int coherenceIterator;
     void beginSession();
     void endSession();
+    void displayDruation();
 };
 #endif // MAINWINDOW_H

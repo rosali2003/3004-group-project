@@ -70,3 +70,10 @@ QStringListModel* Display::goToMenu() {
 bool Display::isMainMenu() {
     return currList == screens;
 }
+
+void Display::updateHistory(){
+    history = database->getHistoryList();
+    foreach (QString str, history) {
+        qDebug() << "#updateHistory history record: " << str;
+    }
+}

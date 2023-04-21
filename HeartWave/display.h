@@ -23,6 +23,7 @@ public:
     QModelIndex goDown();
     QStringListModel* goToMenu();
     bool isMainMenu();
+    void updateHistory();
 
 private:
     HeartDB *database;
