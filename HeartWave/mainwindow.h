@@ -43,5 +43,7 @@ private:
     void displayGraph();
     HeartDB heartDB;
     int coherenceIterator;
+    void beginSession();
+    void endSession();
 };
 #endif // MAINWINDOW_H

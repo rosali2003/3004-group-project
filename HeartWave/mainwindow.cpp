@@ -16,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     dataTimer = new QTimer(this);
     heartRateIterator=0;
     coherenceIterator = 0;
-    time = QTime::currentTime();
-    MainWindow::displayGraph();
+//    MainWindow::displayGraph();
 
 }
 
@@ -66,24 +65,22 @@ void MainWindow::realTimeDataSlot() {
       ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
       ++heartRateIterator;
 
-
       // rescale value (vertical) axis to fit the current data:
       ui->graph->graph(0)->rescaleValueAxis();
 
-      if(key-coherenceKey > 5) {
-          this->displayCoherenceValues();
-          coherenceKey = key;
-       }
-
-
-        // If 4 seconds have gone by without draining battery
-        if (key-lastBatteryDrainKey >= 4){
-            //qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
-            lastBatteryDrainKey = key;
-        }
-
-        lastPointKey = key;
+      lastPointKey = key;
    }
+
+    // If 4 seconds have gone by without draining battery
+    if (key-lastBatteryDrainKey >= 4){
+        //qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
+        lastBatteryDrainKey = key;
+    }
+
+    if(key-coherenceKey > 5) {
+        this->displayCoherenceValues();
+        coherenceKey = key;
+     }
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
@@ -126,6 +123,8 @@ void MainWindow::on_ok_clicked()
         ui->listView->setModel(device->setModel());
         ui->listView->setCurrentIndex(device->getCurrScreen());
         if (ui->listView->model() == nullptr) {
+            //begin session clicked
+            qDebug() << "begin session clicked";
             ui->listView->setVisible(false);
         }
     }
@@ -133,7 +132,16 @@ void MainWindow::on_ok_clicked()
 
 void MainWindow::on_menu_clicked()
 {
+    qDebug() << "menu button clicked";
     ui->listView->setVisible(true);
     ui->listView->setModel(device->goToMenu());
     ui->listView->setCurrentIndex(device->getCurrScreen());
+}
+
+void MainWindow::beginSession(){
+    displayGraph();
+}
+
+void MainWindow::endSession(){
+    dataTimer->stop();
 }
