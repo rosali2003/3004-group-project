@@ -39,6 +39,7 @@ private:
     Device *device;
     QTimer *dataTimer;
     int heartRateIterator;
+    QDateTime date;
     QTime time;
     void displayGraph();
     HeartDB heartDB;

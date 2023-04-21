@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     heartRateIterator=0;
     coherenceIterator = 0;
 //    MainWindow::displayGraph();
-
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +48,7 @@ void MainWindow::displayGraph() {
     connect(dataTimer, &QTimer::timeout, this, &MainWindow::realTimeDataSlot);
 
     time = QTime::currentTime();
+    date = QDateTime::currentDateTime();
     dataTimer->start(0); // Interval 0 means to refresh as fast as possible
 }
 
@@ -59,9 +59,9 @@ void MainWindow::realTimeDataSlot() {
     static double lastBatteryDrainKey = 0;
     static double coherenceKey = 0;
 
-    if (key-lastPointKey > 1) // at most add point every 2 ms
+    if (key-lastPointKey > 1) // at most add point ever
     {
-     // qDebug() << "time elapsed: " << key;
+      qDebug() << "time elapsed: " << key;
       ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
       ++heartRateIterator;
 
@@ -73,7 +73,7 @@ void MainWindow::realTimeDataSlot() {
 
     // If 4 seconds have gone by without draining battery
     if (key-lastBatteryDrainKey >= 4){
-        //qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
+        qDebug() << "Battery percentage drained: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
         lastBatteryDrainKey = key;
     }
 
@@ -125,6 +125,7 @@ void MainWindow::on_ok_clicked()
         if (ui->listView->model() == nullptr) {
             //begin session clicked
             qDebug() << "begin session clicked";
+            beginSession();
             ui->listView->setVisible(false);
         }
     }
@@ -140,8 +141,13 @@ void MainWindow::on_menu_clicked()
 
 void MainWindow::beginSession(){
     displayGraph();
+
 }
 
 void MainWindow::endSession(){
-    dataTimer->stop();
+    if (dataTimer->isActive()){
+        dataTimer->stop();
+        int duration = time.elapsed()/1000;
+        device->addSessionToHistory(date, duration, 5);
+    }
 }

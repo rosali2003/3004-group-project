@@ -294,6 +294,18 @@
       <bool>false</bool>
      </property>
     </widget>
+    <zorder>graph</zorder>
+    <zorder>breath_pacer</zorder>
+    <zorder>coherence_label</zorder>
+    <zorder>length_label</zorder>
+    <zorder>achievement_label</zorder>
+    <zorder>coherence_value</zorder>
+    <zorder>length_value</zorder>
+    <zorder>achievement_value</zorder>
+    <zorder>battery</zorder>
+    <zorder>heart_icon</zorder>
+    <zorder>listView</zorder>
+    <zorder>blackScreen</zorder>
    </widget>
    <widget class="Line" name="separator">
     <property name="geometry">
