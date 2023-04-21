@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <iostream>
+#include <QDebug>
 
 using namespace std;
 
@@ -13,9 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     device = new Device();
     dataTimer = new QTimer(this);
-    MainWindow::displayGraph();
     heartRateIterator=0;
-    i=0;
+    coherenceIterator = 0;
+    time = QTime::currentTime();
+    MainWindow::displayGraph();
+
 }
 
 MainWindow::~MainWindow()
@@ -42,6 +45,8 @@ void MainWindow::displayGraph() {
     connect(ui->graph->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph->yAxis2, SLOT(setRange(QCPRange)));
 
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
+    device->calculateCoherenceScores();
+    qDebug() << "coherence scores"<<device->getCoherenceScores();
     connect(dataTimer, &QTimer::timeout, this, &MainWindow::realTimeDataSlot);
 
     time = QTime::currentTime();
@@ -53,28 +58,45 @@ void MainWindow::realTimeDataSlot() {
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     static double lastPointKey = 0;
     static double lastBatteryDrainKey = 0;
+    static double coherenceKey = 0;
 
     if (key-lastPointKey > 1) // at most add point every 2 ms
     {
-      qDebug() << "time elapsed: " << key;
+     // qDebug() << "time elapsed: " << key;
       ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
       ++heartRateIterator;
+
 
       // rescale value (vertical) axis to fit the current data:
       ui->graph->graph(0)->rescaleValueAxis();
 
-      lastPointKey = key;
-    }
+      if(key-coherenceKey > 5) {
+          this->displayCoherenceValues();
+          coherenceKey = key;
+       }
 
-    // If 4 seconds have gone by without draining battery
-    if (key-lastBatteryDrainKey >= 4){
-        qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
-        lastBatteryDrainKey = key;
-    }
+
+        // If 4 seconds have gone by without draining battery
+        if (key-lastBatteryDrainKey >= 4){
+            //qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
+            lastBatteryDrainKey = key;
+        }
+
+        lastPointKey = key;
+   }
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();
+
+}
+
+void MainWindow::displayCoherenceValues() {
+    QString score = "";
+    score = QString::number(device->getCoherenceScores().at(coherenceIterator), 'f', 2);
+    ++coherenceIterator;
+    ui->coherence_value->setText(score);
+
 }
 
 void MainWindow::on_power_clicked()

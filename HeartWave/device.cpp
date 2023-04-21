@@ -1,24 +1,26 @@
 #include "device.h"
-#include <iostream>
 
 using namespace std;
 
 // constructors
 Device::Device()
 {
+
+    for(int i =0; i<NUMHR;i++) {
+        HRvalues.push_back(HR[i]);
+    }
+
     powerOn = false;
     display = new Display();
     database = new HeartDB();
     battery = new Battery(database->getBatteryLevel());
 
-    for(int i =0; i<NUMHR;i++) {
-        HRvalues.push_back(HR[i]);
-    }
 }
 
 QVector<int>& Device::getHRvalues(){
     return HRvalues;
 }
+
 
 // getters
 QStringListModel* Device::getModel() {return display->getModel();}
@@ -40,7 +42,6 @@ bool Device::togglePower() {
 
 bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
     SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
-
     return database->addSessionRecord(*newSession);
 }
 
@@ -59,4 +60,28 @@ bool Device::chargeBattery() {
 
 int Device::decreaseBattery(int step) {
     return battery->decreaseBattery(step);
+}
+
+
+QVector<float>& Device::getCoherenceScores(){
+    return coherenceValues;
+}
+
+void Device::calculateCoherenceScores() {
+    float largest =0;
+    float smallest =200;
+    for(int i=0; i<NUMHR;i++) {
+        if(HRvalues.at(i) > largest) {
+            largest = HRvalues.at(i);
+        } else if(HRvalues.at(i) < smallest) {
+            smallest = HRvalues.at(i);
+        }
+
+        if((i+1)%5 == 0) {
+            coherenceValues.push_back((largest-smallest)/6);
+            largest = 0;
+            smallest = 200;
+        }
+    }
+
 }

@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include "qcustomplot.h"
 #include <QTime>
+#include "HeartDB.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +20,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+     void displayCoherenceValues();
 private slots:
     void realTimeDataSlot();
 
@@ -40,6 +42,7 @@ private:
     int heartRateIterator;
     QTime time;
     void displayGraph();
-    int i;
+    HeartDB heartDB;
+    int coherenceIterator;
 };
 #endif // MAINWINDOW_H
