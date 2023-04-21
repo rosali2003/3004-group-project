@@ -3,7 +3,6 @@
 #include <QDebug>
 #include <iostream>
 
-
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     dataTimer = new QTimer(this);
     MainWindow::displayGraph();
     heartRateIterator=0;
-
+    i=0;
 }
 
 MainWindow::~MainWindow()
@@ -24,11 +23,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::displayGraph() {
+void MainWindow::on_ok_clicked(){}
 
+void MainWindow::on_right_clicked(){}
+
+void MainWindow::displayGraph() {
     ui->graph->addGraph(); // blue line
     ui->graph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-
 
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
@@ -42,32 +43,38 @@ void MainWindow::displayGraph() {
 
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
     connect(dataTimer, &QTimer::timeout, this, &MainWindow::realTimeDataSlot);
+
     time = QTime::currentTime();
     dataTimer->start(0); // Interval 0 means to refresh as fast as possible
-
 }
 
 void MainWindow::realTimeDataSlot() {
     // calculate two new data points:
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     static double lastPointKey = 0;
+    static double lastBatteryDrainKey = 0;
 
-        if (key-lastPointKey > 1) // at most add point every 2 ms
-        {
-            ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
-            ++heartRateIterator;
+    if (key-lastPointKey > 1) // at most add point every 2 ms
+    {
+      qDebug() << "time elapsed: " << key;
+      ui->graph->graph(0)->addData(key, device->getHRvalues().at(heartRateIterator%NUMHR));
+      ++heartRateIterator;
 
-          // rescale value (vertical) axis to fit the current data:
-          ui->graph->graph(0)->rescaleValueAxis();
+      // rescale value (vertical) axis to fit the current data:
+      ui->graph->graph(0)->rescaleValueAxis();
 
-          lastPointKey = key;
-        }
+      lastPointKey = key;
+    }
+
+    // If 4 seconds have gone by without draining battery
+    if (key-lastBatteryDrainKey >= 4){
+        qDebug() << "Battery percentage: " << device->decreaseBattery(1); // decrease by 1% every 4 seconds = 6-7 minute total session runtime
+        lastBatteryDrainKey = key;
+    }
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->graph->xAxis->setRange(key, 8, Qt::AlignRight);
     ui->graph->replot();
-
-
 }
 
 void MainWindow::on_power_clicked()
@@ -90,3 +97,4 @@ void MainWindow::on_down_clicked()
 {
     ui->listView->setCurrentIndex(device->goDown());
 }
+

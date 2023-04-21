@@ -6,16 +6,15 @@ using namespace std;
 // constructors
 Device::Device()
 {
-    for(int i =0; i<NUMHR;i++) {
-        HRvalues.push_back(HR[i]);
-    }
-
-}
-
     powerOn = false;
     display = new Display();
     database = new HeartDB();
+    battery = new Battery(database->getBatteryLevel());
 
+    for(int i =0; i<NUMHR;i++) {
+        HRvalues.push_back(HR[i]);
+    }
+}
 
 QVector<int>& Device::getHRvalues(){
     return HRvalues;
@@ -42,5 +41,22 @@ bool Device::togglePower() {
 bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
     SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
 
-    return database->addSessionRecord(newSession);
+    return database->addSessionRecord(*newSession);
+}
+
+QVector<SessionRecord*> Device::getSessions(){
+    return database->getSessions();
+}
+
+bool Device::deleteSessions(){
+    return database->deleteSessions();
+}
+
+
+bool Device::chargeBattery() {
+    return battery->chargeBattery();
+}
+
+int Device::decreaseBattery(int step) {
+    return battery->decreaseBattery(step);
 }

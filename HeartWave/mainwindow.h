@@ -7,7 +7,6 @@
 #include <QDateTime>
 #include "qcustomplot.h"
 #include <QTime>
-#include "HeartDB.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,7 +40,6 @@ private:
     int heartRateIterator;
     QTime time;
     void displayGraph();
-    HeartDB heartDB;
-    
+    int i;
 };
 #endif // MAINWINDOW_H
