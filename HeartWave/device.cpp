@@ -44,6 +44,14 @@ bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coheren
     return database->addSessionRecord(*newSession);
 }
 
+QVector<SessionRecord*> Device::getSessions(){
+    return database->getSessions();
+}
+
+bool Device::deleteSessions(){
+    return database->deleteSessions();
+}
+
 
 bool Device::chargeBattery() {
     return battery->chargeBattery();

@@ -51,6 +51,8 @@ private:
     QVector<int> HRvalues;
     QVector<int> coherenceValues;
     HeartDB *database;
+    bool deleteSessions();
+    QVector<SessionRecord*> getSessions();
 };
 
 #endif // DEVICE_H
