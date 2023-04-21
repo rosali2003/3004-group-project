@@ -2,12 +2,12 @@
 #define BATTERY_H
 
 
-class Battery
-{
+class Battery {
 public:
-    Battery();
+    Battery(int percent);
     int decreaseBattery(int step);
     bool chargeBattery();
+    int getBatteryPercentage();
 private:
     int batteryPercentage;
 };

@@ -2,8 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "HeartDB.h"
 #include "device.h"
+#include <QTimer>
+#include <QDateTime>
+#include "qcustomplot.h"
+#include <QTime>
+#include "HeartDB.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,9 +20,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //void displayGraph();
-
+     void displayCoherenceValues();
 private slots:
+    void realTimeDataSlot();
+
     void on_power_clicked();
 
     void on_up_clicked();
@@ -31,7 +36,12 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    Device *device;
+    QTimer *dataTimer;
+    int heartRateIterator;
+    QTime time;
+    void displayGraph();
     HeartDB heartDB;
-    Device* device;
+    int coherenceIterator;
 };
 #endif // MAINWINDOW_H
