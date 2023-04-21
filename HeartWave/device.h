@@ -10,8 +10,10 @@
 #include <stdio.h>
 #include <QVector>
 #include "defs.h"
-#include "qcustomplot.h"
-#include "HeartDB.h"
+#include <cmath>
+#include <iostream>
+//#include <string>
+
 
 
 class Device {
@@ -38,15 +40,8 @@ public:
     void displayheartRate();
     void displayCoherenceScores();
     QVector<int>& getHRvalues();
-<<<<<<< HEAD
-=======
-    QVector<int>& getCoherenceScores();
+    QVector<float>& getCoherenceScores();
     void calculateCoherenceScores();
-private:
-    QTimer *timer;
-    Display display;
-    Battery battery;
->>>>>>> trying to display and calculate coherence values, not working
 
 private:
     QTimer *timer;
@@ -58,7 +53,7 @@ private:
     int batteryPercentage;
     bool programRunning;
     QVector<int> HRvalues;
-    QVector<int> coherenceValues;
+    QVector<float> coherenceValues;
     HeartDB *database;
     bool deleteSessions();
     QVector<SessionRecord*> getSessions();
