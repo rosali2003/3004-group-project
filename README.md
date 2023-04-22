@@ -3,10 +3,10 @@
 This is the final group project for COMP3004: implementing a simulation HeartWave machine using C++ and QTDesigner
 
 ## Group Members
-⭐️ Arian Taherzadeh (101176357)
-⭐️ Colin Vrugteman (101222385)
-⭐️ Daniel Mejia (101245999)
-⭐️ Rosa Li (101224337)
+- ⭐️ Arian Taherzadeh (101176357)
+- ⭐️ Colin Vrugteman (101222385)
+- ⭐️ Daniel Mejia (101245999)
+- ⭐️ Rosa Li (101224337)
 
 ## Installation and Execution Instructions
 1️⃣ Go into your terminal and enter `https://github.com/rosali2003/3004-group-project.git`
