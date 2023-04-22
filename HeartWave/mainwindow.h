@@ -21,6 +21,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
      void displayCoherenceValues();
+signals:
+     void batteryDrained();
 private slots:
     void realTimeDataSlot();
 
@@ -36,6 +38,12 @@ private slots:
 
     void on_back_clicked();
 
+    void on_recharge_button_clicked();
+
+    void on_delete_sessions_button_clicked();
+
+    void on_hr_contact_checkbox_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     Device *device;
@@ -50,5 +58,10 @@ private:
     void beginSession();
     void endSession();
     void displayDruation();
+    void signalLowCoherence();
+    void signalMediumCoherence();
+    void signalHighCoherence();
+    void resetCoherenceIndicators();
+    double lastPointKey, lastBatteryDrainKey, coherenceKey;
 };
 #endif // MAINWINDOW_H

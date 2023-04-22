@@ -367,7 +367,7 @@
      </palette>
     </property>
     <property name="value">
-     <number>100</number>
+     <number>0</number>
     </property>
     <property name="textVisible">
      <bool>false</bool>
@@ -383,7 +383,7 @@
      </rect>
     </property>
     <property name="value">
-     <number>100</number>
+     <number>0</number>
     </property>
     <property name="textVisible">
      <bool>false</bool>
@@ -436,7 +436,7 @@
      </palette>
     </property>
     <property name="value">
-     <number>100</number>
+     <number>0</number>
     </property>
     <property name="textVisible">
      <bool>false</bool>
@@ -526,7 +526,7 @@
       <x>430</x>
       <y>60</y>
       <width>331</width>
-      <height>151</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -541,11 +541,11 @@
      <string>HeartWave</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="hr_contact_checkbox">
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>210</y>
+      <y>160</y>
       <width>201</width>
       <height>23</height>
      </rect>
@@ -566,7 +566,7 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>270</y>
+      <y>290</y>
       <width>281</width>
       <height>161</height>
      </rect>
@@ -599,6 +599,32 @@
     </property>
     <property name="text">
      <string>↑</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="recharge_button">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>200</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Recharge Battery</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="delete_sessions_button">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>240</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete Sessions</string>
     </property>
    </widget>
   </widget>

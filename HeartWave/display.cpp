@@ -73,7 +73,4 @@ bool Display::isMainMenu() {
 
 void Display::updateHistory(){
     history = database->getHistoryList();
-    foreach (QString str, history) {
-        qDebug() << "#updateHistory history record: " << str;
-    }
 }

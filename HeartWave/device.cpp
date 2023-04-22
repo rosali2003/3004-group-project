@@ -15,6 +15,10 @@ Device::Device()
     battery = new Battery(database->getBatteryLevel());
     calculateCoherenceScores();
 
+    foreach (float num, coherenceValues) {
+        qDebug() << "coherence score: " << num;
+    }
+
 }
 
 // setters

@@ -51,6 +51,7 @@ public:
     bool isOn(){return powerOn;}
     void updateHistory();
     int getBatteryLevel(){return battery->getBatteryPercentage();}
+    void updateProfile(int battery){database->updateProfile(battery);}
 
 private:
     QTimer *timer;
