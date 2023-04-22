@@ -17,10 +17,14 @@ Device::Device()
 
 }
 
+// setters
+QStringListModel* Device::setModel() {
+    return display->setModel();
+}
+
 QVector<int>& Device::getHRvalues(){
     return HRvalues;
 }
-
 
 // getters
 QStringListModel* Device::getModel() {return display->getModel();}
@@ -40,9 +44,21 @@ bool Device::togglePower() {
     return powerOn;
 }
 
+void Device::deleteHistory() {
+    database->deleteSessions();
+}
+
 bool Device::addSessionToHistory(QDateTime date, int duration, float avg_coherence) {
-    SessionRecord *newSession = new SessionRecord(date, duration, avg_coherence);
-    return database->addSessionRecord(*newSession);
+    SessionRecord session(date, duration, avg_coherence);
+    return database->addSessionRecord(session);
+}
+
+QStringListModel* Device::goToMenu() {
+    return display->goToMenu();
+}
+
+bool Device::isMainMenu() {
+    return display->isMainMenu();
 }
 
 QVector<SessionRecord*> Device::getSessions(){
@@ -83,5 +99,4 @@ void Device::calculateCoherenceScores() {
             smallest = 200;
         }
     }
-
 }

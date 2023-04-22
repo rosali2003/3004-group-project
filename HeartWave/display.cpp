@@ -4,19 +4,35 @@
 Display::Display()
 {
     // initialize variables
-    numScreens = 2;
     currScreen = 0;
+    database = new HeartDB();
 
-    // setup list with screen names
-    QStringList list;
-    list << "Begin Session" << "Session History";
+    // setup lists
+    screens << "Begin Session" << "Session History";
+    history = database->getHistoryList();
+
+    currList = screens;
+    numScreens = currList.count();
 
     // setup the model to be added to the listView widget
     model = new QStringListModel();
 
     // add the list to the list model
-    model->setStringList(list);
+    model->setStringList(currList);
 
+}
+
+QStringListModel* Display::setModel() {
+    if(currScreen == 0) {
+        return nullptr;
+    } else if (currScreen == 1) {
+        currList = history;
+    }
+
+    numScreens = currList.count();
+    currScreen = 0;
+    model->setStringList(currList);
+    return model;
 }
 
 // getters
@@ -39,5 +55,18 @@ QModelIndex Display::goDown() {
     } else {
         currScreen++;
     }
+
     return model->index(currScreen);
+}
+
+QStringListModel* Display::goToMenu() {
+    currList = screens;
+    numScreens = currList.count();
+    currScreen = 0;
+    model->setStringList(currList);
+    return model;
+}
+
+bool Display::isMainMenu() {
+    return currList == screens;
 }

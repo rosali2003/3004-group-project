@@ -120,3 +120,20 @@ void MainWindow::on_down_clicked()
     ui->listView->setCurrentIndex(device->goDown());
 }
 
+void MainWindow::on_ok_clicked()
+{
+    if(device->isMainMenu()) {
+        ui->listView->setModel(device->setModel());
+        ui->listView->setCurrentIndex(device->getCurrScreen());
+        if (ui->listView->model() == nullptr) {
+            ui->listView->setVisible(false);
+        }
+    }
+}
+
+void MainWindow::on_menu_clicked()
+{
+    ui->listView->setVisible(true);
+    ui->listView->setModel(device->goToMenu());
+    ui->listView->setCurrentIndex(device->getCurrScreen());
+}
