@@ -141,7 +141,7 @@ bool HeartDB::deleteSession(int index) {
     db.transaction();
 
     QSqlQuery query;
-    query.prepare("DELETE FROM sessions WHERE date=:date AND duration=:duration AND avg_coherence=:avg_coherence;");
+    query.prepare("DELETE FROM sessions WHERE date=:date AND duration=:duration AND avg_coherence=:avg_coherence LIMIT 1;");
     query.bindValue(":date", session->getDate().toString(STRING_DATE_FORMAT));
     query.bindValue(":duration", session->getDuration());
     query.bindValue(":avg_coherence", session->getAvgCoherence());
