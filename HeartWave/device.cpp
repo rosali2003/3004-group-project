@@ -103,7 +103,6 @@ void Device::calculateCoherenceScores() {
             smallest = 200;
         }
     }
-}
 
 void Device::updateHistory(){
     display->updateHistory();

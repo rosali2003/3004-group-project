@@ -43,7 +43,7 @@ private slots:
     void on_delete_sessions_button_clicked();
 
     void on_hr_contact_checkbox_stateChanged(int arg1);
-
+    
 private:
     Ui::MainWindow *ui;
     Device *device;
