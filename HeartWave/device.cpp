@@ -108,3 +108,30 @@ void Device::calculateCoherenceScores() {
 void Device::updateHistory(){
     display->updateHistory();
 }
+
+int Device::updateBreathPacerValue(bool increasing, int breathPacerValue) {
+    if (increasing) {
+        breathPacerValue += 5;
+    } else {
+        breathPacerValue -= 5;
+    }
+    return breathPacerValue;
+}
+
+bool Device::updateBreathPacerDirection(bool increasing, int breathPacerValue) {
+    if (breathPacerValue >= 100) {
+        breathPacerValue = 100;
+        increasing = false;
+    } else if (breathPacerValue <= 0) {
+        breathPacerValue = 0;
+        increasing = true;
+    }
+    return increasing;
+}
+
+int Device::updateBreathPacerInterval(int breathPacerValue, int breathPacerInterval) {
+    if (breathPacerValue == 0) {
+        breathPacerInterval += 100;
+    }
+    return breathPacerInterval;
+}

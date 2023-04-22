@@ -66,7 +66,7 @@ private:
     void resetCoherenceIndicators();
     void resetBreathPacer();
     double lastPointKey, lastBatteryDrainKey, coherenceKey;
-    int breathPacerValue;
+    int breathPacerValue, breathPacerInterval;
     bool increasing;
 };
 #endif // MAINWINDOW_H
