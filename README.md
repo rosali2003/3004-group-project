@@ -6,7 +6,7 @@ This is the final group project for COMP3004: implementing a simulation HeartWav
 ⭐️ Arian Taherzadeh (101176357)\
 ⭐️ Colin Vrugteman (101222385)\
 ⭐️ Daniel Mejia (101245999)\
-⭐️ Rosa Li (101224337)\
+⭐️ Rosa Li (101224337)
 
 ## Installation and Execution Instructions
 1️⃣ Go into your terminal and enter `git clone https://github.com/rosali2003/3004-group-project.git`\
