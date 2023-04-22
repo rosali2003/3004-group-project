@@ -187,6 +187,13 @@ void MainWindow::on_ok_clicked()
             beginSession();
             ui->listView->setVisible(false);
         }
+    } else if (device->isOn() && !device->isMainMenu()) {
+        device->deleteSession(device->getCurrScreen().row());
+        ui->error_space->setStyleSheet("{color:red;}");
+        device->updateHistory();
+        ui->listView->setModel(device->goToMenu());
+        ui->listView->setCurrentIndex(device->getCurrScreen());
+
     }
 }
 

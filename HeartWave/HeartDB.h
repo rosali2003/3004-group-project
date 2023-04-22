@@ -39,6 +39,7 @@ public:
     bool addSessionRecord(SessionRecord& session);
     bool updateProfile(int battery_level);
     bool deleteSessions();
+    bool deleteSession(int index);
     QStringList getHistoryList();
 
     int getBatteryLevel();

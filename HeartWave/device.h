@@ -40,9 +40,6 @@ public:
     QStringListModel* goToMenu();
     void deleteHistory();
     bool isMainMenu();
-    View* handleOK();
-    View* goToMain();
-    View* goBack();
     void displayheartRate();
     void displayCoherenceScores();
     QVector<int>& getHRvalues();
@@ -52,6 +49,7 @@ public:
     void updateHistory();
     int getBatteryLevel(){return battery->getBatteryPercentage();}
     void updateProfile(int battery){database->updateProfile(battery);}
+    bool deleteSession(int index) {return database->deleteSession(index);}
 
 private:
     QTimer *timer;
