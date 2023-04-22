@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     device = new Device();
     ui->battery->setValue(device->getBatteryLevel());
+    ui->heart_label->setVisible(false);
     dataTimer = new QTimer(this);
     heartRateIterator=0;
     coherenceIterator = 0;
@@ -293,11 +294,12 @@ void MainWindow::on_hr_contact_checkbox_stateChanged(int arg1)
 {
     if (arg1){
         ui->error_space->setText("");
+        ui->heart_label->setVisible(true);
     }
     else{
+        ui->heart_label->setVisible(false);
         if (dataTimer->isActive()){
             endSession(); // end session if session running
-//            ui->graph->clearPlottables();
             ui->listView->setVisible(true);
             ui->listView->setModel(device->goToMenu());
             ui->listView->setCurrentIndex(device->getCurrScreen());

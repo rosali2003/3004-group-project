@@ -179,42 +179,6 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="heart_icon">
-     <property name="geometry">
-      <rect>
-       <x>300</x>
-       <y>10</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>21</width>
-       <height>21</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>6</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">width:5px;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::RichText</enum>
-     </property>
-     <property name="pixmap">
-      <pixmap>free-heart-beat-icon-2935-thumb.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QListView" name="listView">
      <property name="geometry">
       <rect>
@@ -294,6 +258,31 @@
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QLabel" name="heart_label">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>10</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/img/img/heart-beat.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
     <zorder>graph</zorder>
     <zorder>breath_pacer</zorder>
     <zorder>coherence_label</zorder>
@@ -303,9 +292,9 @@
     <zorder>length_value</zorder>
     <zorder>achievement_value</zorder>
     <zorder>battery</zorder>
-    <zorder>heart_icon</zorder>
     <zorder>listView</zorder>
     <zorder>blackScreen</zorder>
+    <zorder>heart_label</zorder>
    </widget>
    <widget class="Line" name="separator">
     <property name="geometry">
@@ -647,6 +636,8 @@
    <header location="global">qcustomplot.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
