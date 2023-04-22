@@ -189,7 +189,7 @@ void MainWindow::on_ok_clicked()
         }
     } else if (device->isOn() && !device->isMainMenu()) {
         device->deleteSession(device->getCurrScreen().row());
-        ui->error_space->setStyleSheet("{color:red;}");
+        ui->error_space->setText("Session deleted...");
         device->updateHistory();
         ui->listView->setModel(device->goToMenu());
         ui->listView->setCurrentIndex(device->getCurrScreen());
