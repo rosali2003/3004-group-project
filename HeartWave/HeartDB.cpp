@@ -132,6 +132,24 @@ bool HeartDB::deleteSessions(){
     return db.commit();
 }
 
+bool HeartDB::deleteSession(int index) {
+    QVector<SessionRecord*> sessionsVector = getSessions();
+    SessionRecord* session = sessionsVector.value(index);
+
+    QSqlDatabase db = QSqlDatabase::database();
+
+    db.transaction();
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM sessions WHERE date=:date AND duration=:duration AND avg_coherence=:avg_coherence LIMIT 1;");
+    query.bindValue(":date", session->getDate().toString(STRING_DATE_FORMAT));
+    query.bindValue(":duration", session->getDuration());
+    query.bindValue(":avg_coherence", session->getAvgCoherence());
+    qDebug() << query.exec();
+
+    return db.commit();
+}
+
 QStringList HeartDB::getHistoryList() {
     QVector<SessionRecord*> sessionsVector = getSessions();
     QStringList list;
