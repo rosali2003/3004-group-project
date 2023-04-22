@@ -5,14 +5,16 @@
 
 class SessionRecord{
 public:
-    SessionRecord(QDateTime date, int duration, float avg_coherence) {this->date = date; this->duration = duration; this->avg_coherence = avg_coherence;}
+    SessionRecord(QDateTime date, float duration, float avg_coherence, float achievement_score) {this->date = date; this->duration = duration; this->avg_coherence = avg_coherence; this->achievement_score= achievement_score;}
     QDateTime getDate(){return date;}
-    int getDuration(){return duration;}
+    float getDuration(){return duration;}
     float getAvgCoherence(){return avg_coherence;}
+    float getAchievementScore(){return achievement_score;}
 private:
     QDateTime date;
-    int duration;
+    float duration;
     float avg_coherence;
+    float achievement_score;
 };
 
 #endif // SESSIONRECORD_H

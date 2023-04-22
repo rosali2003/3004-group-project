@@ -30,7 +30,7 @@ bool HeartDB::initialize_db() {
 
     QSqlQuery query;
     qDebug() << "Creating table profiles: " << query.exec("CREATE TABLE IF NOT EXISTS profiles ( pid INTEGER NOT NULL UNIQUE PRIMARY KEY,battery_level INTEGER NOT NULL);");
-    qDebug() << "Creating table sessions: " << query.exec("CREATE TABLE IF NOT EXISTS sessions ( sid INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,date TEXT NOT NULL,duration INTEGER NOT NULL,avg_coherence REAL NOT NULL);");
+    qDebug() << "Creating table sessions: " << query.exec("CREATE TABLE IF NOT EXISTS sessions ( sid INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,date TEXT NOT NULL,duration REAL NOT NULL,avg_coherence REAL NOT NULL,achievement_score REAL NOT NULL);");
 
     return heartDB.commit();
 }
@@ -86,10 +86,11 @@ bool HeartDB::addSessionRecord(SessionRecord& session){
     db.transaction();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO sessions (date, duration, avg_coherence) VALUES (:date, :duration, :avg_coherence);");
+    query.prepare("INSERT INTO sessions (date, duration, avg_coherence, achievement_score) VALUES (:date, :duration, :avg_coherence, :achievement_score);");
     query.bindValue(":date", session.getDate().toString(STRING_DATE_FORMAT));
     query.bindValue(":duration", session.getDuration());
     query.bindValue(":avg_coherence", session.getAvgCoherence());
+    query.bindValue(":achievement_score", session.getAchievementScore());
     qDebug() << "add session query: " << query.exec();
 
     return db.commit();
@@ -111,7 +112,7 @@ QVector<SessionRecord*> HeartDB::getSessions(){
     QVector<SessionRecord*> sessions;
     while(query.next()){
         QDateTime date = QDateTime::fromString(query.value(1).toString(), STRING_DATE_FORMAT);
-        sessions.append(new SessionRecord(date, query.value(2).toInt(), query.value(3).toFloat()));
+        sessions.append(new SessionRecord(date, query.value(2).toFloat(), query.value(3).toFloat(), query.value(4).toFloat()));
     }
 
     return sessions;
@@ -125,7 +126,7 @@ bool HeartDB::deleteSessions(){
     QSqlQuery query;
     query.prepare("DROP TABLE sessions;");
     qDebug() << "drop sessions query: " << query.exec();
-    query.prepare("CREATE TABLE IF NOT EXISTS sessions ( sid INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,date TEXT NOT NULL,duration INTEGER NOT NULL,avg_coherence REAL NOT NULL);");
+    query.prepare("CREATE TABLE IF NOT EXISTS sessions ( sid INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,date TEXT NOT NULL,duration REAL NOT NULL,avg_coherence REAL NOT NULL,achievement_score REAL NOT NULL);");
     qDebug() << "re-create table sessions query: " << query.exec();
 
     return db.commit();
@@ -136,7 +137,7 @@ QStringList HeartDB::getHistoryList() {
     QStringList list;
 
     foreach(SessionRecord* record, sessionsVector) {
-        QString str = record->getDate().toString() + "\nDuration: " + QString::number(record->getDuration()) + "\nAvg Coherence: " + QString::number(record->getAvgCoherence());
+        QString str = record->getDate().toString() + "\nDuration: " + QString::number(record->getDuration(), 'f', 1) + "s\nAvg Coherence: " + QString::number(record->getAvgCoherence(), 'f', 2) + "\nAchievement Score: " + QString::number(record->getAchievementScore(), 'f', 2);
         list << str;
     }
 
