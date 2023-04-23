@@ -179,7 +179,11 @@ void MainWindow::on_down_clicked()
 
 void MainWindow::on_ok_clicked()
 {
-    if(device->isOn() && device->isMainMenu()) {
+    if (device->isOn() && ui->listView->model() == nullptr) {
+            endSession();
+            ui->listView->setVisible(true);
+            ui->listView->setCurrentIndex(device->getCurrScreen());
+    } else if(device->isOn() && device->isMainMenu()) {
         ui->listView->setModel(device->setModel());
         ui->listView->setCurrentIndex(device->getCurrScreen());
         if (ui->listView->model() == nullptr) {
@@ -188,7 +192,7 @@ void MainWindow::on_ok_clicked()
             beginSession();
             ui->listView->setVisible(false);
         }
-    } else if (device->isOn() && !device->isMainMenu()) {
+    } else if (device->isOn() && !device->isMainMenu() && ui->listView->model() != nullptr) {
         device->deleteSession(device->getCurrScreen().row());
         ui->error_space->setText("Session deleted...");
         device->updateHistory();
@@ -200,10 +204,14 @@ void MainWindow::on_ok_clicked()
 
 void MainWindow::on_menu_clicked()
 {
-    if (device->isOn()){
-        endSession();
+    if(device->isOn()){
+        //if display is on session, call end session, otherwise, switch screen to menu
+        if(ui->listView->model() == nullptr) {
+            endSession();
+        } else {
+            ui->listView->setModel(device->goToMenu());
+        }
         ui->listView->setVisible(true);
-        ui->listView->setModel(device->goToMenu());
         ui->listView->setCurrentIndex(device->getCurrScreen());
     }
 }
@@ -236,15 +244,21 @@ void MainWindow::endSession(){
         device->addSessionToHistory(date, duration, avg_score/c, achievement_score);
         device->updateHistory();
         resetCoherenceIndicators();
+        ui->listView->setModel(device->goToSummary());
+
     }
 }
 
 void MainWindow::on_back_clicked()
 {
     if(device->isOn()){
-        endSession();
+        //if display is on session, call end session, otherwise, switch screen to menu
+        if(ui->listView->model() == nullptr) {
+            endSession();
+        } else {
+            ui->listView->setModel(device->goToMenu());
+        }
         ui->listView->setVisible(true);
-        ui->listView->setModel(device->goToMenu());
         ui->listView->setCurrentIndex(device->getCurrScreen());
     }
 }

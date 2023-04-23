@@ -67,6 +67,14 @@ QStringListModel* Display::goToMenu() {
     return model;
 }
 
+QStringListModel* Display::goToSummary() {
+    currList = history;
+    numScreens = currList.count();
+    currScreen = currList.count()-1;
+    model->setStringList(currList);
+    return model;
+}
+
 bool Display::isMainMenu() {
     return currList == screens;
 }

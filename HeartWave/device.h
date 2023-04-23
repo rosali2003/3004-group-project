@@ -38,6 +38,7 @@ public:
     QModelIndex goUp();
     QModelIndex goDown();
     QStringListModel* goToMenu();
+    QStringListModel* goToSummary() {return display->goToSummary();}
     void deleteHistory();
     bool isMainMenu();
     void displayheartRate();
