@@ -26,13 +26,17 @@ QStringListModel* Device::setModel() {
     return display->setModel();
 }
 
+// getters
+QStringListModel* Device::getModel() {return display->getModel();}
+QModelIndex Device::getCurrScreen() {return display->getCurrScreen();}
+
 QVector<int>& Device::getHRvalues(){
     return HRvalues;
 }
 
-// getters
-QStringListModel* Device::getModel() {return display->getModel();}
-QModelIndex Device::getCurrScreen() {return display->getCurrScreen();}
+QVector<float>& Device::getCoherenceScores(){
+    return coherenceValues;
+}
 
 // others
 QModelIndex Device::goUp() {
@@ -80,11 +84,6 @@ bool Device::chargeBattery() {
 
 int Device::decreaseBattery(int step) {
     return battery->decreaseBattery(step);
-}
-
-
-QVector<float>& Device::getCoherenceScores(){
-    return coherenceValues;
 }
 
 void Device::calculateCoherenceScores() {

@@ -1,7 +1,6 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 #include <QStringListModel>
-#include "view.h"
 #include "HeartDB.h"
 #include <string.h>
 

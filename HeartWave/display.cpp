@@ -22,6 +22,7 @@ Display::Display()
 
 }
 
+// setters
 QStringListModel* Display::setModel() {
     if(currScreen == 0) {
         return nullptr;
