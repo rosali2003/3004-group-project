@@ -32,10 +32,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//void MainWindow::on_ok_clicked(){}
-
-//void MainWindow::on_right_clicked(){}
-
 void MainWindow::displayGraph() {
     ui->graph->addGraph(); // blue line
     ui->graph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
