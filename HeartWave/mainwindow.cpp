@@ -189,10 +189,17 @@ void MainWindow::on_ok_clicked()
         ui->listView->setModel(device->setModel());
         ui->listView->setCurrentIndex(device->getCurrScreen());
         if (ui->listView->model() == nullptr) {
-            //begin session clicked
-            qDebug() << "begin session clicked";
-            beginSession();
-            ui->listView->setVisible(false);
+            if(ui->hr_contact_checkbox->isChecked()) {
+                //begin session clicked
+                qDebug() << "begin session clicked";
+                beginSession();
+                ui->listView->setVisible(false);
+            } else {
+                // tried to begin session but no HR contact
+                ui->error_space->setText("Can't begin session without HR contact!");
+                ui->listView->setModel(device->goToMenu());
+                ui->listView->setCurrentIndex(device->getCurrScreen());
+            }
         }
     } else if (device->isOn() && !device->isMainMenu() && ui->listView->model() != nullptr) {
         device->deleteSession(device->getCurrScreen().row());
