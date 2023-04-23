@@ -22,10 +22,7 @@ SOURCES += \
     display.cpp \
     main.cpp \
     mainwindow.cpp \
-    menu.cpp \
-    qcustomplot.cpp \
-    session.cpp \
-    view.cpp
+    qcustomplot.cpp
 
 HEADERS += \
     HeartDB.h \
@@ -35,11 +32,8 @@ HEADERS += \
     device.h \
     display.h \
     mainwindow.h \
-    menu.h \
     qcustomplot.h \
-    qcustomplot.h \
-    session.h \
-    view.h
+    qcustomplot.h
 
 FORMS += \
     mainwindow.ui
