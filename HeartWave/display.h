@@ -22,6 +22,7 @@ public:
     QModelIndex goUp();
     QModelIndex goDown();
     QStringListModel* goToMenu();
+    QStringListModel* goToSummary();
     bool isMainMenu();
     void updateHistory();
 
