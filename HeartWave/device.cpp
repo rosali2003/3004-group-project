@@ -89,6 +89,7 @@ int Device::decreaseBattery(int step) {
 void Device::calculateCoherenceScores() {
     float largest =0;
     float smallest =200;
+    int factor = 0;
     for(int i=0; i<NUMHR;i++) {
         if(HRvalues.at(i) > largest) {
             largest = HRvalues.at(i);
@@ -97,7 +98,8 @@ void Device::calculateCoherenceScores() {
         }
 
         if((i+1)%5 == 0) {
-            coherenceValues.push_back((largest-smallest)/6);
+            factor = (largest-smallest)/3;
+            coherenceValues.push_back(factor-((largest-smallest)/6));
             largest = 0;
             smallest = 200;
         }
