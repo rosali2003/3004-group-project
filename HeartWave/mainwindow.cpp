@@ -196,7 +196,7 @@ void MainWindow::on_ok_clicked()
                 ui->listView->setVisible(false);
             } else {
                 // tried to begin session but no HR contact
-                beginSession();
+                ui->error_space->setText("Can't begin session without HR contact!");
                 ui->listView->setModel(device->goToMenu());
                 ui->listView->setCurrentIndex(device->getCurrScreen());
             }
