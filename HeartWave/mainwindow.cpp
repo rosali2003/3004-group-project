@@ -65,7 +65,8 @@ void MainWindow::displayGraph() {
     achievement_score = 0;
     time = QTime::currentTime();
     date = QDateTime::currentDateTime();
-    dataTimer->start(100); // Interval 0 means to refresh as fast as possible
+    dataTimer->start(100);
+    breathPacer->start(breathPacerInterval);
 }
 
 void MainWindow::realTimeDataSlot() {
@@ -231,8 +232,6 @@ void MainWindow::beginSession(){
           return;
       }
       displayGraph();
-
-      breathPacer->start(breathPacerInterval);
     }
 }
 
