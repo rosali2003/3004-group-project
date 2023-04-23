@@ -23,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
     lastPointKey = 0;
     achievement_score = 0;
     connect(this, &MainWindow::batteryDrained, this, &MainWindow::on_power_clicked);
+    breathPacerValue = 0;
+    breathPacerInterval = 250;
+    increasing = true;
+    breathPacer = new QTimer(this);
+    connect(breathPacer, &QTimer::timeout, this, &MainWindow::updateBreathPacer);
 }
 
 MainWindow::~MainWindow()
@@ -226,6 +231,8 @@ void MainWindow::beginSession(){
           return;
       }
       displayGraph();
+
+      breathPacer->start(breathPacerInterval);
     }
 }
 
@@ -246,6 +253,7 @@ void MainWindow::endSession(){
         resetCoherenceIndicators();
         ui->listView->setModel(device->goToSummary());
 
+        resetBreathPacer();
     }
 }
 
@@ -291,6 +299,14 @@ void MainWindow::resetCoherenceIndicators(){
     ui->achievement_value->setText("0.0");
 }
 
+void MainWindow::resetBreathPacer(){
+    breathPacer->stop();
+    breathPacerValue = 0;
+    breathPacerInterval = 250;
+    ui->breath_pacer->setValue(breathPacerValue);
+    increasing = true;
+}
+
 void MainWindow::on_recharge_button_clicked()
 {
     device->chargeBattery();
@@ -320,4 +336,12 @@ void MainWindow::on_hr_contact_checkbox_stateChanged(int arg1)
         }
 
     }
+}
+
+void MainWindow::updateBreathPacer() {
+    breathPacerValue = device->updateBreathPacerValue(increasing, breathPacerValue);
+    increasing = device->updateBreathPacerDirection(increasing, breathPacerValue);
+    breathPacerInterval = device->updateBreathPacerInterval(breathPacerValue, breathPacerInterval);
+    breathPacer->setInterval(breathPacerInterval);
+    ui->breath_pacer->setValue(breathPacerValue);
 }

@@ -51,6 +51,9 @@ public:
     int getBatteryLevel(){return battery->getBatteryPercentage();}
     void updateProfile(int battery){database->updateProfile(battery);}
     bool deleteSession(int index) {return database->deleteSession(index);}
+    int updateBreathPacerValue(bool increasing, int breathPacerValue);
+    bool updateBreathPacerDirection(bool increasing, int breathPacerValue);
+    int updateBreathPacerInterval(int breathPacerValue, int breathPacerInterval);
 
 private:
     QTimer *timer;

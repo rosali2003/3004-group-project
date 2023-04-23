@@ -43,11 +43,13 @@ private slots:
     void on_delete_sessions_button_clicked();
 
     void on_hr_contact_checkbox_stateChanged(int arg1);
+
+    void updateBreathPacer();
     
 private:
     Ui::MainWindow *ui;
     Device *device;
-    QTimer *dataTimer;
+    QTimer *dataTimer, *breathPacer;
     int heartRateIterator;
     float achievement_score;
     QDateTime date;
@@ -62,6 +64,9 @@ private:
     void signalMediumCoherence();
     void signalHighCoherence();
     void resetCoherenceIndicators();
+    void resetBreathPacer();
     double lastPointKey, lastBatteryDrainKey, coherenceKey;
+    int breathPacerValue, breathPacerInterval;
+    bool increasing;
 };
 #endif // MAINWINDOW_H
