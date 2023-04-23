@@ -147,7 +147,7 @@ void MainWindow::on_power_clicked()
             return;
         }
         device->togglePower();
-        ui->battery->setValue(device->getBatteryLevel());
+        ui->battery->setValue(device-> getBatteryLevel());
         ui->blackScreen->setVisible(false);
         ui->listView->setModel(device->getModel());
         ui->listView->setCurrentIndex(device->getCurrScreen());
