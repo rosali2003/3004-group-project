@@ -40,7 +40,7 @@ QT_END_NAMESPACE
  * - void signalMediumCoherence(): Update UI to turn on Blue Coherence Indicator when medium coherence during session
  * - void signalHighCoherence(): Update UI to turn on Green Coherence Indicator when high coherence during session
  * - void resetCoherenceIndicators(): Resets all UI coherence indicators, scores, session duration, achievement score
- * - void resetBreathPacer(): Resetse breath pacer timer and UI
+ * - void resetBreathPacer(): Resets breath pacer timer and UI
  * - void displayCoherenceValues(): Displays coherence values in UI when session active
  * - void displayGraph(): Initial function called when session starts, setting up variables and starting dataTimer and breathPacer
  *
